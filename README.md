@@ -1,2 +1,8 @@
 # OmegaT-Character-Limiter-Plugin
-Character Limiter plugin for OmegaT
+
+
+## Info
+
+TODO
+
+This plugin is not finished yet! Use it at your own risk!
