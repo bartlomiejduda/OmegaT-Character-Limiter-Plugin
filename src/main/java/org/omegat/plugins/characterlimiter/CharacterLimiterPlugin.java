@@ -20,7 +20,7 @@ public class CharacterLimiterPlugin {
 
 	public CharacterLimiterPlugin() {
 		menu = new CharacterLimiterMenu(this);
-		CoreEvents.registerApplicationEventListener(new ApplicationEventListenerSessionLog(this));
+		CoreEvents.registerApplicationEventListener(new PluginApplicationEventListener(this));
 	} 
 	
 	CharacterLimiterMenu getMenu() {
@@ -58,9 +58,7 @@ public class CharacterLimiterPlugin {
 		if (config_path != null) {
 			try {
 				StringBuilder string_builder = new StringBuilder();
-//				ticks.forEach(o -> string_builder.append(o).append("\r\n"));
 				Files.write(new File(config_path).toPath(), string_builder.toString().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-//				ticks.clear();
 			} catch (IOException e) {
 				logger.error(e.getMessage(), e);
 			}

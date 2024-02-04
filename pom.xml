@@ -32,10 +32,13 @@
 					<archive>
 						<manifestEntries>
 							<OmegaT-Plugin>true</OmegaT-Plugin>
+							<Plugin-Name>Character Limiter</Plugin-Name>
 							<Plugin-Version>1.0</Plugin-Version>
 							<Plugin-Author>Bartłomiej Duda (Ikskoks)</Plugin-Author>
 							<Plugin-Link>https://github.com/bartlomiejduda/OmegaT-Character-Limiter-Plugin</Plugin-Link>
 							<Plugin-Description>Plugin for limiting characters during translation process in OmegaT</Plugin-Description>
+							<Plugin-License>GPL-3.0</Plugin-License>
+							<Plugin-Category>base</Plugin-Category>
 						</manifestEntries>
 						<manifestSections>
 							<manifestSection>
@@ -55,9 +58,13 @@
 		<dependency>
 			<groupId>org.omegat</groupId>
 			<artifactId>omegat</artifactId>
-			<version>5.7.1</version>
+			<version>6.0.0</version>
 			<scope>provided</scope>
 			<exclusions>
+				<exclusion>
+					<groupId>com.kohlschutter.junixsocket</groupId>
+					<artifactId>junixsocket-core</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>org.dict.zip</groupId>
 					<artifactId>dictzip-lib</artifactId>

@@ -5,17 +5,17 @@ import org.omegat.core.CoreEvents;
 import org.omegat.core.data.NotLoadedProject;
 import org.omegat.core.events.IApplicationEventListener;
 
-public class ApplicationEventListenerSessionLog implements IApplicationEventListener {
+public class PluginApplicationEventListener implements IApplicationEventListener {
 
 	CharacterLimiterPlugin character_limiter;
 
-	public ApplicationEventListenerSessionLog(CharacterLimiterPlugin character_limiter) {
+	public PluginApplicationEventListener(CharacterLimiterPlugin character_limiter) {
 		this.character_limiter = character_limiter;
 	}
 
 	@Override
 	public void onApplicationStartup() {
-		ActionListener listener = new ActionListener(character_limiter);
+		PluginActionListener listener = new PluginActionListener(character_limiter);
 		CoreEvents.registerProjectChangeListener(listener);
 		CoreEvents.registerEntryEventListener(listener);
 		CoreEvents.registerEditorEventListener(listener);
