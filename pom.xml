@@ -56,6 +56,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>dk.navicon</groupId>
+			<artifactId>vldocking</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.omegat</groupId>
 			<artifactId>omegat</artifactId>
 			<version>6.0.0</version>

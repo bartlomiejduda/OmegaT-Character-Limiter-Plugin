@@ -37,8 +37,7 @@ public class PluginActionListener
 
 	@Override
 	public void onNewWord(String newWord) {
-		logger.info("[PLUGIN] Initializing onNewWord");
-		logger.info("[PLUGIN] new word = " + newWord);
+
 	}
 
 	@Override
@@ -63,7 +62,6 @@ public class PluginActionListener
 			text_area_listener = new PluginEditorTextAreaDocumentListener(character_limiter);
 			PluginAccessTools.getEditorTextArea().getOmDocument().addDocumentListener(text_area_listener);
 		}
-
 	}
 
 

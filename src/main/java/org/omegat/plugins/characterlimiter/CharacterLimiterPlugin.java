@@ -8,15 +8,20 @@ import java.util.ResourceBundle;
 
 import org.omegat.core.Core;
 import org.omegat.core.CoreEvents;
+import org.omegat.gui.main.DockableScrollPane;
+import org.omegat.gui.main.IMainWindow;
 import org.omegat.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.*;
 
 public class CharacterLimiterPlugin {
 	private static final Logger logger = LoggerFactory.getLogger(CharacterLimiterPlugin.class);
 	private static ResourceBundle bundle = ResourceBundle.getBundle("org/omegat/plugins/characterlimiter/Bundle");
 	private CharacterLimiterMenu menu;
 	private String config_path;
+	private DockableScrollPane scrollPane;
 
 	public CharacterLimiterPlugin() {
 		menu = new CharacterLimiterMenu(this);
@@ -41,6 +46,21 @@ public class CharacterLimiterPlugin {
 		config_path = new File(string_builder.toString()).getAbsolutePath();
 		menu.setEnabled(true);
 		menu.setSelected(true);
+
+		add_plugin_dockable();
+	}
+
+	void add_plugin_dockable()
+	{
+		JToolBar toolBar = new JToolBar("Still draggable");
+		scrollPane = new DockableScrollPane("aaa2", "aaa", toolBar, true);
+		IMainWindow mw = Core.getMainWindow();
+		mw.addDockable(scrollPane);
+	}
+
+	void set_plugin_dockable_text(String dockable_text)
+	{
+		scrollPane.setName(dockable_text);
 	}
 	
 	void disable() {
