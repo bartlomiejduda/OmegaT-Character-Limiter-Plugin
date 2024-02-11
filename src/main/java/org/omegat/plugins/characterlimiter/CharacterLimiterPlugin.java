@@ -1,5 +1,6 @@
 package org.omegat.plugins.characterlimiter;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,6 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class CharacterLimiterPlugin {
 	private static final Logger logger = LoggerFactory.getLogger(CharacterLimiterPlugin.class);
@@ -53,8 +57,10 @@ public class CharacterLimiterPlugin {
 
 	void add_plugin_dockable()
 	{
-		JLabel label = new JLabel("");
-		scrollPane = new DockableScrollPane("plugin_dockable_infobox", getLocalizedString("PLUGIN_DOCKABLE_TITLE"), label, true);
+		JTextPane text_pane = new JTextPane();
+		text_pane.setOpaque(true);
+		text_pane.setBackground(Color.white);
+		scrollPane = new DockableScrollPane("plugin_dockable_infobox", getLocalizedString("PLUGIN_DOCKABLE_TITLE"), text_pane, true);
 		IMainWindow mw = Core.getMainWindow();
 		mw.getDesktop().addDockable(scrollPane);
 	}
@@ -67,8 +73,17 @@ public class CharacterLimiterPlugin {
 
 	void set_plugin_dockable_text(String dockable_text)
 	{
-		JLabel label = new JLabel(dockable_text);
-		scrollPane.setViewportView(label);
+		JTextPane text_pane = new JTextPane();
+		text_pane.setContentType("text/html");
+		text_pane.setText(dockable_text);
+		text_pane.setEditable(false);
+		text_pane.setFont(Core.getMainWindow().getApplicationFont());
+		text_pane.setOpaque(true);
+		text_pane.setBackground(Color.white);
+		Border border = text_pane.getBorder();
+		Border margin = new EmptyBorder(5,5,5,5);
+		text_pane.setBorder(new CompoundBorder(border, margin));
+		scrollPane.setViewportView(text_pane);
 	}
 	
 	void disable() {

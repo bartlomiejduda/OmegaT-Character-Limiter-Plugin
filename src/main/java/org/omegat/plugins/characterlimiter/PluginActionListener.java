@@ -75,11 +75,29 @@ public class PluginActionListener
 	@Override
 	public void onProjectChanged(PROJECT_CHANGE_TYPE eventType) {
 		logger.info("[PLUGIN] Initializing onProjectChanged");
-		if (eventType == PROJECT_CHANGE_TYPE.CLOSE) {
+		logger.info("[PLUGIN] CHANGE TYPE: " + eventType);
+
+		if (eventType == PROJECT_CHANGE_TYPE.CLOSE)
+		{
 			character_limiter.close();
-			text_area_listener = null;
-		} else if (eventType == PROJECT_CHANGE_TYPE.LOAD || eventType == PROJECT_CHANGE_TYPE.CREATE) {
+			if (text_area_listener != null)
+			{
+				PluginAccessTools.getEditorTextArea().getOmDocument().removeDocumentListener(text_area_listener);
+				text_area_listener = null;
+			}
+		}
+		else if (eventType == PROJECT_CHANGE_TYPE.LOAD || eventType == PROJECT_CHANGE_TYPE.CREATE)
+		{
 			character_limiter.start();
+		}
+		else if (eventType == PROJECT_CHANGE_TYPE.MODIFIED)
+		{
+			if (text_area_listener != null)
+			{
+				PluginAccessTools.getEditorTextArea().getOmDocument().removeDocumentListener(text_area_listener);
+				text_area_listener = null;
+			}
+
 		}
 	}
 }
