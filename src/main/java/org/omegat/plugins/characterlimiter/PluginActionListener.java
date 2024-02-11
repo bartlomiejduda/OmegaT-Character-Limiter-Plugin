@@ -14,7 +14,6 @@ public class PluginActionListener
 		implements IEditorEventListener, IEntryEventListener, IFontChangedEventListener, IProjectEventListener {
 
 	private CharacterLimiterPlugin character_limiter;
-	private PluginCaretUpdateListener caret_listener;
 	private PluginEditorTextAreaDocumentListener text_area_listener;
 
 	private static final Logger logger = LoggerFactory.getLogger(CharacterLimiterMenu.class);
@@ -22,17 +21,7 @@ public class PluginActionListener
 	public PluginActionListener(CharacterLimiterPlugin character_limiter) {
 		logger.info("[PLUGIN] Initializing ActionListener");
 		this.character_limiter = character_limiter;
-
-		this.caret_listener = null;
 		this.text_area_listener = null;
-
-
-		if (caret_listener == null) {
-			logger.info("[PLUGIN] Adding NEW caret_listener");
-			caret_listener = new PluginCaretUpdateListener(character_limiter);
-			PluginAccessTools.getEditorTextArea().addCaretListener(caret_listener);
-		}
-
 	}
 
 	@Override
@@ -63,10 +52,6 @@ public class PluginActionListener
 	@Override
 	public void onEntryActivated(SourceTextEntry newEntry) {
 		logger.info("[PLUGIN] Initializing onEntryActivated");
-		logger.info("[PLUGIN] new entry source text = " + newEntry.getSrcText());
-		int source_text_length = newEntry.getSrcText().length();
-		logger.info("[PLUGIN] new entry source text length  = " + source_text_length);
-
 		add_text_area_listener();
 	}
 

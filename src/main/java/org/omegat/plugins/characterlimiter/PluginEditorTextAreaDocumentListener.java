@@ -29,62 +29,13 @@ public class PluginEditorTextAreaDocumentListener implements DocumentListener {
 	}
 
 
-	String get_dockable_text(int source_length, int translation_length)
-	{
-		int percent = (translation_length * 100) / source_length;
-		String percent_color = "GREEN";
 
-		if (percent >= 60 && percent <= 100)
-		{
-			percent_color = "ORANGE";
-		}
-		else if (percent > 100)
-		{
-			percent_color = "RED";
-		}
-
-		StringBuilder dockable_text = new StringBuilder();
-
-		dockable_text.append("<html>");
-		dockable_text.append("Source text length: ").append(source_length);
-		dockable_text.append("<br>");
-		dockable_text.append("Translation text length: ");
-		dockable_text.append(String.format("<FONT COLOR=%s>", percent_color));
-		dockable_text.append(translation_length);
-		dockable_text.append(" (" + percent + "%)");
-		dockable_text.append("</FONT>");
-		dockable_text.append("</html>");
-
-
-		return dockable_text.toString();
-	}
-
-	private void limit_text_on_update(String translation_text, int character_limit) {
-		Runnable do_text_limiting = new Runnable() {
-			@Override
-			public void run() {
-				String text_to_replace = translation_text.substring(0, character_limit);
-				Core.getEditor().replaceEditText(text_to_replace);
-			}
-		};
-		SwingUtilities.invokeLater(do_text_limiting);
-	}
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		logger.info("[PLUGIN] Initializing changedUpdate");
 		if (Core.getEditor().getCurrentTranslation() != null)
 		{
-			String source_text = Core.getEditor().getCurrentEntry().getSrcText();
-			String translation_text = Core.getEditor().getCurrentTranslation();
-			int character_limit = source_text.length();  // TODO - logic for global limit
-			String dockable_text = get_dockable_text(source_text.length(), translation_text.length());
-			character_limiter.set_plugin_dockable_text(dockable_text);
-
-			if (translation_text.length() > character_limit)
-			{
-				logger.info("[PLUGIN] Limiting text in segment to " + character_limit + " characters");
-				limit_text_on_update(translation_text, character_limit);
-			}
+			character_limiter.execute_limit_characters_logic();
 		}
 	}
 
