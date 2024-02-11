@@ -52,15 +52,23 @@ public class CharacterLimiterPlugin {
 
 	void add_plugin_dockable()
 	{
-		JToolBar toolBar = new JToolBar("Still draggable");
-		scrollPane = new DockableScrollPane("aaa2", "aaa", toolBar, true);
+		JLabel label = new JLabel("");
+		scrollPane = new DockableScrollPane("plugin_dockable_infobox", getLocalizedString("PLUGIN_DOCKABLE_TITLE"), label, true);
 		IMainWindow mw = Core.getMainWindow();
 		mw.addDockable(scrollPane);
 	}
 
+	void remove_plugin_dockable()
+	{
+		scrollPane.setEnabled(false);
+		scrollPane.setVisible(false);
+		scrollPane = null;
+	}
+
 	void set_plugin_dockable_text(String dockable_text)
 	{
-		scrollPane.setName(dockable_text);
+		JLabel label = new JLabel(dockable_text);
+		scrollPane.setViewportView(label);
 	}
 	
 	void disable() {
@@ -72,6 +80,8 @@ public class CharacterLimiterPlugin {
 		disable();
 		menu.setEnabled(false);
 		config_path = null;
+
+		remove_plugin_dockable();
 	}
 	
 	private void write() {
