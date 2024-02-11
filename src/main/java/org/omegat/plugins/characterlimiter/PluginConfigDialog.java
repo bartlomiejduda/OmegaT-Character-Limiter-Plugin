@@ -2,27 +2,24 @@ package org.omegat.plugins.characterlimiter;
 
 import java.awt.AWTEvent;
 import java.awt.Frame;
-
 import javax.swing.*;
-
-import org.omegat.util.OStrings;
 import org.omegat.util.gui.StaticUIUtils;
 import org.openide.awt.Mnemonics;
 
-public class ConfigDialog extends JDialog {
+public class PluginConfigDialog extends JDialog {
+
+    PluginConfig plugin_config;
 	
-	public ConfigDialog(Frame parent, PluginConfig stats) {
+	public PluginConfigDialog(Frame parent, PluginConfig plugin_config) {
 		super(parent, true);
-		
-		initComponents(stats);
-		
+        this.plugin_config = plugin_config;
+		initComponents();
 		pack();
-		
         StaticUIUtils.fitInScreen(this);
         setLocationRelativeTo(parent);  
 	}
 	
-	private void initComponents(PluginConfig stats) {
+	private void initComponents() {
 		JLabel allow_longer_strings_label = new JLabel();
         JCheckBox allow_longer_strings_checkbox = new JCheckBox();
 
@@ -34,24 +31,24 @@ public class ConfigDialog extends JDialog {
         JPanel button_panel = new JPanel();
         JPanel jPanel3 = new JPanel();
         JPanel jPanel1 = new JPanel();
-        JButton ok_button = new JButton();
+        JButton save_button = new JButton();
 
 
         setTitle(CharacterLimiterPlugin.getLocalizedString("CONFIG_DIALOG_TITLE"));
         setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
-            	okButtonActionPerformed(evt);
+            	saveButtonActionPerformed(evt);
             }
         });
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
         
-        Mnemonics.setLocalizedText(allow_longer_strings_label, CharacterLimiterPlugin.getLocalizedString("ALLOW_LONGER_STRINGS_LABEL", "123"));
+        Mnemonics.setLocalizedText(allow_longer_strings_label, CharacterLimiterPlugin.getLocalizedString("ALLOW_LONGER_STRINGS_LABEL"));
         button_panel.add(allow_longer_strings_label);
         button_panel.add(allow_longer_strings_checkbox);
 
 
-        Mnemonics.setLocalizedText(enable_sound_label, CharacterLimiterPlugin.getLocalizedString("ENABLE_SOUND_LABEL", "456"));
+        Mnemonics.setLocalizedText(enable_sound_label, CharacterLimiterPlugin.getLocalizedString("ENABLE_SOUND_LABEL"));
         button_panel.add(enable_sound_label);
         button_panel.add(enable_sound_checkbox);
 
@@ -68,13 +65,13 @@ public class ConfigDialog extends JDialog {
         jPanel1.setAlignmentX(0.0F);
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        Mnemonics.setLocalizedText(ok_button, OStrings.getString("BUTTON_OK"));
-        ok_button.addActionListener(new java.awt.event.ActionListener() {
+        Mnemonics.setLocalizedText(save_button, CharacterLimiterPlugin.getLocalizedString("BUTTON_SAVE"));
+        save_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                okButtonActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(ok_button);
+        jPanel1.add(save_button);
 
         jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
 
@@ -85,9 +82,14 @@ public class ConfigDialog extends JDialog {
 	
 
 	
-	private void okButtonActionPerformed(AWTEvent evt) {
+	private void saveButtonActionPerformed(AWTEvent evt) {
 		setVisible(false);
         dispose();
-        // TODO - save config here
+        plugin_config.save_config();
+    }
+
+    private void cancelButtonActionPerformed(AWTEvent evt) {
+        setVisible(false);
+        dispose();
     }
 }

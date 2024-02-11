@@ -14,9 +14,9 @@ public class PluginActionListener
 		implements IEditorEventListener, IEntryEventListener, IFontChangedEventListener, IProjectEventListener {
 
 	private CharacterLimiterPlugin character_limiter;
-	private PluginEditorTextAreaDocumentListener text_area_listener;
+	private PluginDocumentListener text_area_listener;
 
-	private static final Logger logger = LoggerFactory.getLogger(CharacterLimiterMenu.class);
+	private static final Logger logger = LoggerFactory.getLogger(PluginActionListener.class);
 
 	public PluginActionListener(CharacterLimiterPlugin character_limiter) {
 		logger.info("[PLUGIN] Initializing ActionListener");
@@ -44,7 +44,7 @@ public class PluginActionListener
 	{
 		if (text_area_listener == null) {
 			logger.info("[PLUGIN] Adding NEW text_area_listener");
-			text_area_listener = new PluginEditorTextAreaDocumentListener(character_limiter);
+			text_area_listener = new PluginDocumentListener(character_limiter);
 			PluginAccessTools.getEditorTextArea().getOmDocument().addDocumentListener(text_area_listener);
 		}
 	}

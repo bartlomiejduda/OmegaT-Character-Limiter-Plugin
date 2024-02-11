@@ -3,7 +3,6 @@ package org.omegat.plugins.characterlimiter;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
@@ -204,7 +203,7 @@ public class CharacterLimiterPlugin {
 		{
 			return new PluginConfig();
 		}
-		// TODO
-		return null;
+
+		return new PluginConfig(); // TODO - fix this
 	}
 }

@@ -49,7 +49,7 @@ public class CharacterLimiterMenu {
 		view_config_menu_item.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ConfigDialog(Core.getMainWindow().getApplicationFrame(), character_limiter.get_config()).setVisible(true);
+				new PluginConfigDialog(Core.getMainWindow().getApplicationFrame(), character_limiter.get_config()).setVisible(true);
 
 			}
 		});
