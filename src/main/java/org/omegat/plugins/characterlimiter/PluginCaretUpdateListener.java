@@ -20,6 +20,6 @@ public class PluginCaretUpdateListener implements CaretListener {
 
 	@Override
 	public void caretUpdate(CaretEvent e) {
-		logger.info("[PLUGIN] Initializing caretUpdate");
+
 	}
 }

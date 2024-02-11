@@ -50,13 +50,9 @@ public class PluginActionListener
 		logger.info("[PLUGIN] Initializing onNewFile");
 	}
 
-	@Override
-	public void onEntryActivated(SourceTextEntry newEntry) {
-		logger.info("[PLUGIN] Initializing onEntryActivated");
-		logger.info("[PLUGIN] new entry source text = " + newEntry.getSrcText());
-		int source_text_length = newEntry.getSrcText().length();
-		logger.info("[PLUGIN] new entry source text length  = " + source_text_length);
 
+	void add_text_area_listener()
+	{
 		if (text_area_listener == null) {
 			logger.info("[PLUGIN] Adding NEW text_area_listener");
 			text_area_listener = new PluginEditorTextAreaDocumentListener(character_limiter);
@@ -64,12 +60,24 @@ public class PluginActionListener
 		}
 	}
 
+	@Override
+	public void onEntryActivated(SourceTextEntry newEntry) {
+		logger.info("[PLUGIN] Initializing onEntryActivated");
+		logger.info("[PLUGIN] new entry source text = " + newEntry.getSrcText());
+		int source_text_length = newEntry.getSrcText().length();
+		logger.info("[PLUGIN] new entry source text length  = " + source_text_length);
+
+		add_text_area_listener();
+	}
+
 
 
 	@Override
 	public void onProjectChanged(PROJECT_CHANGE_TYPE eventType) {
+		logger.info("[PLUGIN] Initializing onProjectChanged");
 		if (eventType == PROJECT_CHANGE_TYPE.CLOSE) {
 			character_limiter.close();
+			text_area_listener = null;
 		} else if (eventType == PROJECT_CHANGE_TYPE.LOAD || eventType == PROJECT_CHANGE_TYPE.CREATE) {
 			character_limiter.start();
 		}

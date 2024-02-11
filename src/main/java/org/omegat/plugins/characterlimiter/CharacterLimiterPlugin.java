@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 
+import com.vlsolutions.swing.docking.Dockable;
 import org.omegat.core.Core;
 import org.omegat.core.CoreEvents;
 import org.omegat.gui.main.DockableScrollPane;
@@ -55,14 +56,13 @@ public class CharacterLimiterPlugin {
 		JLabel label = new JLabel("");
 		scrollPane = new DockableScrollPane("plugin_dockable_infobox", getLocalizedString("PLUGIN_DOCKABLE_TITLE"), label, true);
 		IMainWindow mw = Core.getMainWindow();
-		mw.addDockable(scrollPane);
+		mw.getDesktop().addDockable(scrollPane);
 	}
 
 	void remove_plugin_dockable()
 	{
-		scrollPane.setEnabled(false);
-		scrollPane.setVisible(false);
-		scrollPane = null;
+		IMainWindow mw = Core.getMainWindow();
+		mw.getDesktop().remove((Dockable) scrollPane);
 	}
 
 	void set_plugin_dockable_text(String dockable_text)
@@ -74,6 +74,8 @@ public class CharacterLimiterPlugin {
 	void disable() {
 		write();
 		menu.setSelected(false);
+
+		remove_plugin_dockable();
 	}
 	
 	void close() {

@@ -34,11 +34,11 @@ public class PluginEditorTextAreaDocumentListener implements DocumentListener {
 		int percent = (translation_length * 100) / source_length;
 		String percent_color = "GREEN";
 
-		if (percent >= 50 && percent < 80)
+		if (percent >= 60 && percent <= 100)
 		{
 			percent_color = "ORANGE";
 		}
-		else if (percent >= 80)
+		else if (percent > 100)
 		{
 			percent_color = "RED";
 		}
@@ -48,7 +48,7 @@ public class PluginEditorTextAreaDocumentListener implements DocumentListener {
 		dockable_text.append("<html>");
 		dockable_text.append("Source text length: ").append(source_length);
 		dockable_text.append("<br>");
-		dockable_text.append("Translation length: ");
+		dockable_text.append("Translation text length: ");
 		dockable_text.append(String.format("<FONT COLOR=%s>", percent_color));
 		dockable_text.append(translation_length);
 		dockable_text.append(" (" + percent + "%)");
@@ -63,7 +63,7 @@ public class PluginEditorTextAreaDocumentListener implements DocumentListener {
 		logger.info("[PLUGIN] Initializing changedUpdate");
 		if (Core.getEditor().getCurrentTranslation() != null)
 		{
-			String source_text = "01234567891234567";
+			String source_text = "01234567891234567";  // TODO - get real source
 			String translation_text = Core.getEditor().getCurrentTranslation();
 			String dockable_text = get_dockable_text(source_text.length(), translation_text.length());
 
