@@ -43,8 +43,8 @@ set various options. You can access this config window from the
 
 There are also some extra features that can be configured using config menu:
 
-* Blocking OmegaT text area after reaching 100% of the character limit
-* Playing audio sound after reaching 100% of the character limit
+* Blocking OmegaT text area after reaching 100% of the character limit :no_entry_sign:
+* Playing audio sound after reaching 100% of the character limit :musical_note:
 
 ## Plugin installation and first use
 
