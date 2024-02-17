@@ -1,7 +1,6 @@
 package org.omegat.plugins.characterlimiter;
 
-import java.awt.AWTEvent;
-import java.awt.Frame;
+import java.awt.*;
 import javax.swing.*;
 import org.omegat.util.gui.StaticUIUtils;
 import org.openide.awt.Mnemonics;
@@ -20,18 +19,23 @@ public class PluginConfigDialog extends JDialog {
 	}
 	
 	private void initComponents() {
-		JLabel allow_longer_strings_label = new JLabel();
-        JCheckBox allow_longer_strings_checkbox = new JCheckBox();
-
-		JLabel enable_sound_label = new JLabel();
-        JCheckBox enable_sound_checkbox = new JCheckBox();
 
 
-
-        JPanel button_panel = new JPanel();
-        JPanel jPanel3 = new JPanel();
+        JPanel options_panel = new JPanel();
+        JPanel down_button_panel = new JPanel();
         JPanel jPanel1 = new JPanel();
         JButton save_button = new JButton();
+        JButton cancel_button = new JButton();
+        JCheckBox allow_longer_strings_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ALLOW_LONGER_STRINGS_LABEL"));
+        JCheckBox enable_sound_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ENABLE_SOUND_LABEL"));
+        JCheckBox enable_global_character_limit = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ENABLE_GLOBAL_CHARACTER_LIMIT"));
+        JLabel global_character_limit_label = new JLabel(CharacterLimiterPlugin.getLocalizedString("GLOBAL_LIMIT_LABEL"));
+        JTextField global_character_limit_textfield = new JTextField("NOT SET");
+
+
+        options_panel.setBackground(Color.BLUE);  // DEBUG
+        down_button_panel.setBackground(Color.RED);
+        jPanel1.setBackground(Color.ORANGE);
 
 
         setTitle(CharacterLimiterPlugin.getLocalizedString("CONFIG_DIALOG_TITLE"));
@@ -42,42 +46,45 @@ public class PluginConfigDialog extends JDialog {
             }
         });
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
-        
-        Mnemonics.setLocalizedText(allow_longer_strings_label, CharacterLimiterPlugin.getLocalizedString("ALLOW_LONGER_STRINGS_LABEL"));
-        button_panel.add(allow_longer_strings_label);
-        button_panel.add(allow_longer_strings_checkbox);
-
-
-        Mnemonics.setLocalizedText(enable_sound_label, CharacterLimiterPlugin.getLocalizedString("ENABLE_SOUND_LABEL"));
-        button_panel.add(enable_sound_label);
-        button_panel.add(enable_sound_checkbox);
+        options_panel.add(allow_longer_strings_checkbox);
+        options_panel.add(enable_sound_checkbox);
+        options_panel.add(enable_global_character_limit);
+        options_panel.add(global_character_limit_label, BorderLayout.WEST);
+        options_panel.add(global_character_limit_textfield, BorderLayout.CENTER);
 
 
         
 
         
-        button_panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        button_panel.setLayout(new javax.swing.BoxLayout(button_panel, javax.swing.BoxLayout.PAGE_AXIS));
+        options_panel.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        options_panel.setLayout(new javax.swing.BoxLayout(options_panel, BoxLayout.PAGE_AXIS));
 
-        jPanel3.setAlignmentX(0.0F);
-        jPanel3.setLayout(new java.awt.BorderLayout());
+        down_button_panel.setAlignmentX(0.0F);
+        down_button_panel.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setAlignmentX(0.0F);
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
+        Mnemonics.setLocalizedText(cancel_button, CharacterLimiterPlugin.getLocalizedString("BUTTON_CANCEL"));
         Mnemonics.setLocalizedText(save_button, CharacterLimiterPlugin.getLocalizedString("BUTTON_SAVE"));
+        cancel_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
         save_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(cancel_button);
         jPanel1.add(save_button);
 
-        jPanel3.add(jPanel1, java.awt.BorderLayout.EAST);
+        down_button_panel.add(jPanel1, BorderLayout.EAST);
 
-        button_panel.add(jPanel3);
+        options_panel.add(down_button_panel);
 
-        getContentPane().add(button_panel, java.awt.BorderLayout.SOUTH);
+        getContentPane().add(options_panel, java.awt.BorderLayout.NORTH);
     }
 	
 
