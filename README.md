@@ -9,7 +9,7 @@ What is OmegaT? It's a great CAT program with many features.
 
 ## Plugin Info
 
-OmegaT Character Limiter Plugin lets you limit characters in your
+OmegaT Character Limiter Plugin allows you to limit characters in your
 translation projects. Do you want your translation's text length
 to be less or equal it's original length? Do you have some global
 limit for all segments and don't want to exceed it? Then this plugin
@@ -26,11 +26,11 @@ are used in the translation and how much space do you still have left:
 <img src="img\dockable.gif">
 
 There are few colors available for percentage value:<br>
-🟢<span style="color:green">Green Color</span> (0-60%) lets you know that 
-you still have a lot of space left for your translation.<br>
-🟠<span style="color:orange">Orange Color</span> (60-100%) lets you know
+🟢Green Color (0-60%) lets you know that 
+you still have a lot of space to use in your translation.<br>
+🟠Orange Color (60-100%) lets you know
 that you're getting closer to fill the limit for your translation.<br>
-🔴<span style="color:red">Red Color</span> (100%+) lets you know that
+🔴Red Color (100%+) lets you know that
 you've already reached your limit, so you should stop translating
 and try to rephrase your text.
 
