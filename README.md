@@ -2,8 +2,7 @@
 
 ## OmegaT Info
 
-What is OmegaT? It's a great CAT program for handling localization
-projects. 
+What is OmegaT? It's a great CAT program with many features.
 
 * [OmegaT Website](https://omegat.org/)
 * [OmegaT source code](https://github.com/omegat-org/omegat)
@@ -14,7 +13,7 @@ OmegaT Character Limiter Plugin lets you limit characters in your
 translation projects. Do you want your translation's text length
 to be less or equal it's original length? Do you have some global
 limit for all segments and don't want to exceed it? Then this plugin
-is for you and I encourage you to use it in your project.
+is for you.
 It's free, open source and fully configurable, 
 so you can adjust it for your needs.
 
@@ -27,11 +26,11 @@ are used in the translation and how much space do you still have left:
 <img src="img\dockable.gif">
 
 There are few colors available for percentage value:<br>
-<span style="color:green">Green Color</span> (0-60%) lets you know that 
+🟢<span style="color:green">Green Color</span> (0-60%) lets you know that 
 you still have a lot of space left for your translation.<br>
-<span style="color:orange">Orange Color</span> (60-100%) lets you know
+🟠<span style="color:orange">Orange Color</span> (60-100%) lets you know
 that you're getting closer to fill the limit for your translation.<br>
-<span style="color:red">Red Color</span> (100%+) lets you know that
+🔴<span style="color:red">Red Color</span> (100%+) lets you know that
 you've already reached your limit, so you should stop translating
 and try to rephrase your text.
 
@@ -53,9 +52,9 @@ There are also some extra features that can be configured using config menu:
 3. Copy JAR file to OmegaT's plugin directory
 (default is "C:\Program Files\OmegaT\plugins")
 4. Run OmegaT
-5. Go to "Tools" menu to set plugin's options
-6. Load new project in OmegaT
-7. Start translating and use this plugin to limit characters
+5. Load new project in OmegaT
+6. Go to "Tools" menu to set plugin's options
+7. Start translating and using this plugin to limit characters
 
 ## Plugin Compatibility
 
