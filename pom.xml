@@ -31,23 +31,15 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<OmegaT-Plugin>true</OmegaT-Plugin>
 							<Plugin-Name>Character Limiter</Plugin-Name>
 							<Plugin-Version>1.0</Plugin-Version>
 							<Plugin-Author>Bartłomiej Duda (Ikskoks)</Plugin-Author>
-							<Plugin-Link>https://github.com/bartlomiejduda/OmegaT-Character-Limiter-Plugin</Plugin-Link>
 							<Plugin-Description>Plugin for limiting characters during translation process in OmegaT</Plugin-Description>
-							<Plugin-License>GPL-3.0</Plugin-License>
+							<Plugin-Link>https://github.com/bartlomiejduda/OmegaT-Character-Limiter-Plugin</Plugin-Link>
 							<Plugin-Category>base</Plugin-Category>
+							<Plugin-License>GPL-3.0</Plugin-License>
+							<OmegaT-Plugins>org.omegat.plugins.characterlimiter.PluginInit</OmegaT-Plugins>
 						</manifestEntries>
-						<manifestSections>
-							<manifestSection>
-							<name>org.omegat.plugins.characterlimiter.CharacterLimiterPlugin</name>
-							<manifestEntries>
-								<OmegaT-Plugin>Base</OmegaT-Plugin>
-							</manifestEntries>
-							</manifestSection>
-						</manifestSections>
 					</archive>
 				</configuration>
 			</plugin>

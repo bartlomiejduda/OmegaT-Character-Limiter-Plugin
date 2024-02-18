@@ -23,7 +23,7 @@ data processed by the plugin, it is source text length, translation length,
 global character limit and a percentage showing how much of the characters
 are used in the translation and how much space do you still have left:
 
-<img src="img\dockable.gif">
+<img src="img\block_text.gif">
 
 There are few colors available for percentage value:<br>
 🟢Green Color (0-60%) lets you know that 
@@ -39,11 +39,6 @@ space will be calculated from this value, instead of source
 text length of each segment:
 
 <img src="img\global_limit.gif">
-
-Of course, you can also completely block text area if you don't
-want to accidentally exceed your limit:
-
-<img src="img\block_text.gif">
 
 For your disposition there is a config menu that allows you to
 set various options. You can access this config window from the

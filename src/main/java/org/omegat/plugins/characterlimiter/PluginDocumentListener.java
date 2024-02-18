@@ -31,7 +31,10 @@ public class PluginDocumentListener implements DocumentListener {
 		logger.info("[PLUGIN] Initializing changedUpdate");
 		if (Core.getEditor().getCurrentTranslation() != null)
 		{
-			character_limiter.execute_limit_characters_logic();
+			if (character_limiter.getMenu().is_limiter_enabled())
+			{
+				character_limiter.execute_limit_characters_logic();
+			}
 		}
 	}
 }
