@@ -6,9 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 public class PluginConfig {
@@ -17,7 +14,6 @@ public class PluginConfig {
 	public String config_path;
 	public boolean allow_longer_strings;
 	public boolean enable_sound;
-	public String sound_name;
 	public boolean enable_global_character_limit;
 	public int global_character_limit;
 
@@ -27,17 +23,34 @@ public class PluginConfig {
 
 		if (check_if_config_file_exists())
 		{
-			load_config_from_file();
+			try {
+				load_config_from_file();
+			} catch (Exception e) {
+				logger.error("[PLUGIN] Failed to load config from file!");
+				Core.getMainWindow().showMessageDialog(CharacterLimiterPlugin.getLocalizedString("FAILED_TO_LOAD_CONFIG_FROM_FILE_MESSAGE"));
+				load_default_config();
+			}
 		}
 		else
 		{
-			// get default config
-			allow_longer_strings = false;
-			enable_sound = false;
-			sound_name = "beep.wav";
-			enable_global_character_limit = false;
-			global_character_limit = 10;
+			load_default_config();
+		}
+
+	}
+
+	void load_default_config()
+	{
+		logger.info("[PLUGIN] Initializing load_default_config");
+		allow_longer_strings = false;
+		enable_sound = false;
+		enable_global_character_limit = false;
+		global_character_limit = 10;
+
+		try {
 			save_config_to_file(false);
+		} catch (Exception e) {
+			logger.error("[PLUGIN] Failed to save config to file while loading default config!");
+			Core.getMainWindow().showMessageDialog(CharacterLimiterPlugin.getLocalizedString("FAILED_TO_SAVE_CONFIG_TO_FILE_MESSAGE"));
 		}
 
 	}
@@ -49,12 +62,11 @@ public class PluginConfig {
 		try {
 			prop.load(new FileInputStream(get_config_path()));
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("[PLUGIN] Failed to open config file!");
 		}
 
 		allow_longer_strings = Boolean.valueOf(prop.getProperty("allow_longer_strings"));
 		enable_sound = Boolean.valueOf(prop.getProperty("enable_sound"));
-		sound_name = prop.getProperty("sound_name");
 		enable_global_character_limit = Boolean.valueOf(prop.getProperty("enable_global_character_limit"));
 		global_character_limit = Integer.valueOf(prop.getProperty("global_character_limit"));
 	}
@@ -72,7 +84,6 @@ public class PluginConfig {
 
 	void overwrite_config(boolean input_allow_longer_strings,
 					 boolean input_enable_sound,
-					 String input_sound_name,
 					 boolean input_enable_global_character_limit,
 					 int input_global_character_limit
 	)
@@ -80,7 +91,6 @@ public class PluginConfig {
 		logger.info("[PLUGIN] Initializing overwrite_config");
 		allow_longer_strings = input_allow_longer_strings;
 		enable_sound = input_enable_sound;
-		sound_name = input_sound_name;
 		enable_global_character_limit = input_enable_global_character_limit;
 		global_character_limit = input_global_character_limit;
 		save_config_to_file(true);
@@ -116,14 +126,13 @@ public class PluginConfig {
 
 				prop.setProperty("allow_longer_strings", String.valueOf(allow_longer_strings));
 				prop.setProperty("enable_sound", String.valueOf(enable_sound));
-				prop.setProperty("sound_name", sound_name);
 				prop.setProperty("enable_global_character_limit", String.valueOf(enable_global_character_limit));
 				prop.setProperty("global_character_limit", String.valueOf(global_character_limit));
 
 				prop.store(inputStream, CharacterLimiterPlugin.getLocalizedString("PROPERTIES_FILE_TITLE"));
 
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				logger.error("[PLUGIN] Can't save config to file!");
 			}
 		}
 		else

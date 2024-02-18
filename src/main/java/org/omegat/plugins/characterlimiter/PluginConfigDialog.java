@@ -41,6 +41,7 @@ public class PluginConfigDialog extends JDialog {
 
 
         NumberFormat format = NumberFormat.getInstance();
+        format.setGroupingUsed(false);
         NumberFormatter formatter = new NumberFormatter(format);
         formatter.setValueClass(Integer.class);
         formatter.setMinimum(0);
@@ -50,11 +51,6 @@ public class PluginConfigDialog extends JDialog {
         global_character_limit_textfield = new JFormattedTextField(formatter);
         global_character_limit_textfield.setValue(1);
 
-
-
-//        options_panel.setBackground(Color.BLUE);  // DEBUG
-//        down_button_panel.setBackground(Color.RED);
-//        jPanel1.setBackground(Color.ORANGE);
 
 
         setTitle(CharacterLimiterPlugin.getLocalizedString("CONFIG_DIALOG_TITLE"));
@@ -124,7 +120,6 @@ public class PluginConfigDialog extends JDialog {
         dispose();
         plugin_config.overwrite_config(allow_longer_strings_checkbox.isSelected(),
                                        enable_sound_checkbox.isSelected(),
-                                       "beep.wav", // TODO
                                        enable_global_character_limit_checkbox.isSelected(),
                                        (Integer)global_character_limit_textfield.getValue()
                 );

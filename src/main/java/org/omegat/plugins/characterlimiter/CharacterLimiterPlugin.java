@@ -101,16 +101,30 @@ public class CharacterLimiterPlugin {
 	}
 
 
-	String get_dockable_text(int source_length, int translation_length)
+	String get_dockable_text(int source_length, int translation_length, boolean enable_global_character_limit, int global_character_limit)
 	{
-		int percent = (translation_length * 100) / source_length;
-		String percent_color = "GREEN";
+		int character_limit;
+		if (enable_global_character_limit)
+		{
+			character_limit = global_character_limit;
+		}
+		else
+		{
+			character_limit = source_length;
+		}
 
-		if (percent >= 60 && percent <= 100)
+		int percent = (translation_length * 100) / character_limit;
+		String percent_color;
+
+		if (percent < 60)
+		{
+			percent_color = "GREEN";
+		}
+		else if (percent >= 60 && percent <= 100)
 		{
 			percent_color = "ORANGE";
 		}
-		else if (percent > 100)
+		else
 		{
 			percent_color = "RED";
 		}
@@ -118,13 +132,20 @@ public class CharacterLimiterPlugin {
 		StringBuilder dockable_text = new StringBuilder();
 
 		dockable_text.append("<html>");
-		dockable_text.append("Source text length: ").append(source_length);
+		if (enable_global_character_limit)
+		{
+			dockable_text.append(CharacterLimiterPlugin.getLocalizedString("DOCKABLE_TEXT_GLOBAL_CHARACTER_LIMIT_LABEL"))
+					.append(" ").append(character_limit);
+			dockable_text.append("<br>");
+		}
+		dockable_text.append(CharacterLimiterPlugin.getLocalizedString("DOCKABLE_TEXT_SOURCE_TEXT_LENGTH_LABEL"))
+				.append(" ").append(source_length);
 		dockable_text.append("<br>");
-		dockable_text.append("Translation text length: ");
-		dockable_text.append(String.format("<FONT COLOR=%s>", percent_color));
+		dockable_text.append(CharacterLimiterPlugin.getLocalizedString("DOCKABLE_TEXT_TRANSLATION_TEXT_LENGTH_LABEL")).append(" ");
+		dockable_text.append(String.format("<font color=%s>", percent_color));
 		dockable_text.append(translation_length);
 		dockable_text.append(" (" + percent + "%)");
-		dockable_text.append("</FONT>");
+		dockable_text.append("</font>");
 		dockable_text.append("</html>");
 
 
@@ -147,15 +168,31 @@ public class CharacterLimiterPlugin {
 	{
 		String source_text = Core.getEditor().getCurrentEntry().getSrcText();
 		String translation_text = Core.getEditor().getCurrentTranslation();
-		int character_limit = source_text.length();  // TODO - add logic for global limit
-		String dockable_text = get_dockable_text(source_text.length(), translation_text.length());
+		String dockable_text = get_dockable_text(source_text.length(), translation_text.length(),
+				plugin_config.enable_global_character_limit, plugin_config.global_character_limit);
 		set_plugin_dockable_text(dockable_text);
+
+		int character_limit;
+		if (plugin_config.enable_global_character_limit)
+		{
+			character_limit = plugin_config.global_character_limit;
+		}
+		else
+		{
+			character_limit = source_text.length();
+		}
 
 		if (translation_text.length() > character_limit)
 		{
-			logger.info("[PLUGIN] Limiting text in segment to " + character_limit + " characters");
-			limit_text_on_update(translation_text, character_limit);
-			play_limiter_sound();
+			logger.info("[PLUGIN] Trying to limit text in segment to " + character_limit + " characters");
+			if (!plugin_config.allow_longer_strings)
+			{
+				limit_text_on_update(translation_text, character_limit);
+			}
+			if (plugin_config.enable_sound)
+			{
+				play_limiter_sound();
+			}
 		}
 	}
 

@@ -34,16 +34,28 @@ that you're getting closer to fill the limit for your translation.<br>
 you've already reached your limit, so you should stop translating
 and try to rephrase your text.
 
-For your disposition there is also config menu that allows you to
+If you decide to set global character limit, percentage of used
+space will be calculated from this value, instead of source
+text length of each segment:
+
+<img src="img\global_limit.gif">
+
+Of course, you can also completely block text area if you don't
+want to accidentally exceed your limit:
+
+<img src="img\block_text.gif">
+
+For your disposition there is a config menu that allows you to
 set various options. You can access this config window from the
 "Tools" menu in OmegaT and then by clicking "View CharacterLimiter Config":
 
 <img src="img\config.png">
 
-There are also some extra features that can be configured using config menu:
+Here are some extra features that can be configured using config menu:
 
 * Blocking OmegaT text area after reaching 100% of the character limit :no_entry_sign:
 * Playing audio sound after reaching 100% of the character limit :musical_note:
+* Setting global character limit for all segments :earth_americas:
 
 ## Plugin installation and first use
 
