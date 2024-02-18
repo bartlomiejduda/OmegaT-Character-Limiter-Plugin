@@ -1,11 +1,7 @@
 package org.omegat.plugins.characterlimiter;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.ResourceBundle;
 
 import com.vlsolutions.swing.docking.Dockable;
@@ -27,7 +23,7 @@ public class CharacterLimiterPlugin {
 	private static final Logger logger = LoggerFactory.getLogger(CharacterLimiterPlugin.class);
 	private static ResourceBundle bundle = ResourceBundle.getBundle("org/omegat/plugins/characterlimiter/Bundle");
 	private CharacterLimiterMenu menu;
-	private String config_path;
+	PluginConfig plugin_config;
 	private DockableScrollPane scrollPane;
 
 	public CharacterLimiterPlugin() {
@@ -44,16 +40,10 @@ public class CharacterLimiterPlugin {
 	}
 	
 	void start() {
-		logger.info("PLUGIN START...");
-		File dir = new File(Core.getProject().getProjectProperties().getProjectRoot() + "/character_limiter_config");
-		dir.mkdir();
-
-		StringBuilder string_builder = new StringBuilder(dir.getAbsolutePath());
-		string_builder.append("/config.ini");
-		config_path = new File(string_builder.toString()).getAbsolutePath();
-		menu.setEnabled(true);
-		menu.setSelected(true);
-
+		logger.info("[PLUGIN] Initializing start...");
+		menu.set_limiter_menu_items_enabled(true);
+		menu.set_limiter_menu_items_selected(true);
+		plugin_config = new PluginConfig();
 		add_plugin_dockable();
 	}
 
@@ -173,37 +163,24 @@ public class CharacterLimiterPlugin {
 
 
 	void disable() {
-		write();
-		menu.setSelected(false);
-
+		menu.set_limiter_menu_items_selected(false);
 		remove_plugin_dockable();
 	}
 	
 	void close() {
 		disable();
-		menu.setEnabled(false);
-		config_path = null;
+		menu.set_limiter_menu_items_enabled(false);
+		plugin_config = null;
 
 		remove_plugin_dockable();
 	}
 	
-	private void write() {
-		if (config_path != null) {
-			try {
-				StringBuilder string_builder = new StringBuilder();
-				Files.write(new File(config_path).toPath(), string_builder.toString().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-			} catch (IOException e) {
-				logger.error(e.getMessage(), e);
-			}
-		}
-	}
-	
 	PluginConfig get_config() {
-		if (config_path == null)
+		if (plugin_config == null)
 		{
 			return new PluginConfig();
 		}
 
-		return new PluginConfig(); // TODO - fix this
+		return plugin_config;
 	}
 }

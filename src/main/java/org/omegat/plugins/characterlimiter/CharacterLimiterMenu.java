@@ -15,17 +15,21 @@ public class CharacterLimiterMenu {
 
 	private static final Logger logger = LoggerFactory.getLogger(CharacterLimiterMenu.class);
 	private final JCheckBoxMenuItem enable_limiter_menu_item;
+	private final JMenuItem view_config_menu_item;
 
 	boolean is_limiter_enabled() {
 		return enable_limiter_menu_item.isSelected();
 	}
 	
-	void setSelected(boolean enabled) {
+	void set_limiter_menu_items_selected(boolean enabled) {
 		enable_limiter_menu_item.setSelected(enabled);
+		view_config_menu_item.setSelected(enabled);
 	}
 	
-	void setEnabled(boolean enabled) {
+	void set_limiter_menu_items_enabled(boolean enabled) {
+
 		enable_limiter_menu_item.setEnabled(enabled);
+		view_config_menu_item.setEnabled(enabled);
 	}
 
 	public CharacterLimiterMenu(CharacterLimiterPlugin character_limiter) {
@@ -33,7 +37,7 @@ public class CharacterLimiterMenu {
 		this.enable_limiter_menu_item.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (enable_limiter_menu_item.isSelected()) {
+				if (is_limiter_enabled()) {
 					character_limiter.start();
 				} else {
 					character_limiter.disable();
@@ -44,15 +48,27 @@ public class CharacterLimiterMenu {
 		this.enable_limiter_menu_item.setSelected(false);
 		this.enable_limiter_menu_item.setEnabled(false);
 
-		JMenuItem view_config_menu_item = new JMenuItem(CharacterLimiterPlugin.getLocalizedString("MENU_ITEM_VIEW_CONFIG"));
-		view_config_menu_item.setName("limiter_view_config");
+		this.view_config_menu_item = new JMenuItem(CharacterLimiterPlugin.getLocalizedString("MENU_ITEM_VIEW_CONFIG"));
 		view_config_menu_item.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new PluginConfigDialog(Core.getMainWindow().getApplicationFrame(), character_limiter.get_config()).setVisible(true);
+				if (is_limiter_enabled())
+				{
+					logger.info("[PLUGIN] Showing config window");
+					new PluginConfigDialog(Core.getMainWindow().getApplicationFrame(), character_limiter.get_config()).setVisible(true);
+				}
+				else
+				{
+					logger.info("[PLUGIN] Showing message dialog");
+					Core.getMainWindow().showMessageDialog(CharacterLimiterPlugin.getLocalizedString("CHARACTER_LIMITER_IS_NOT_ENABLED_MESSAGE"));
+				}
 
 			}
 		});
+		view_config_menu_item.setName("limiter_view_config");
+		this.view_config_menu_item.setSelected(false);
+		this.view_config_menu_item.setEnabled(false);
+
 
 		CoreEvents.registerApplicationEventListener(new IApplicationEventListener() {
 			@Override

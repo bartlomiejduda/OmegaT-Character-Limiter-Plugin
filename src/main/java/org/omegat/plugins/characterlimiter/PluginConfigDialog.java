@@ -1,13 +1,21 @@
 package org.omegat.plugins.characterlimiter;
 
 import java.awt.*;
+import java.text.NumberFormat;
 import javax.swing.*;
+import javax.swing.text.NumberFormatter;
+
 import org.omegat.util.gui.StaticUIUtils;
 import org.openide.awt.Mnemonics;
 
 public class PluginConfigDialog extends JDialog {
 
     PluginConfig plugin_config;
+
+    JCheckBox allow_longer_strings_checkbox;
+    JCheckBox enable_sound_checkbox;
+    JCheckBox enable_global_character_limit_checkbox;
+    JFormattedTextField global_character_limit_textfield;
 	
 	public PluginConfigDialog(Frame parent, PluginConfig plugin_config) {
 		super(parent, true);
@@ -26,16 +34,27 @@ public class PluginConfigDialog extends JDialog {
         JPanel jPanel1 = new JPanel();
         JButton save_button = new JButton();
         JButton cancel_button = new JButton();
-        JCheckBox allow_longer_strings_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ALLOW_LONGER_STRINGS_LABEL"));
-        JCheckBox enable_sound_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ENABLE_SOUND_LABEL"));
-        JCheckBox enable_global_character_limit = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ENABLE_GLOBAL_CHARACTER_LIMIT"));
+        allow_longer_strings_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ALLOW_LONGER_STRINGS_LABEL"));
+        enable_sound_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ENABLE_SOUND_LABEL"));
+        enable_global_character_limit_checkbox = new JCheckBox(CharacterLimiterPlugin.getLocalizedString("ENABLE_GLOBAL_CHARACTER_LIMIT"));
         JLabel global_character_limit_label = new JLabel(CharacterLimiterPlugin.getLocalizedString("GLOBAL_LIMIT_LABEL"));
-        JTextField global_character_limit_textfield = new JTextField("NOT SET");
 
 
-        options_panel.setBackground(Color.BLUE);  // DEBUG
-        down_button_panel.setBackground(Color.RED);
-        jPanel1.setBackground(Color.ORANGE);
+        NumberFormat format = NumberFormat.getInstance();
+        NumberFormatter formatter = new NumberFormatter(format);
+        formatter.setValueClass(Integer.class);
+        formatter.setMinimum(0);
+        formatter.setMaximum(Integer.MAX_VALUE);
+        formatter.setAllowsInvalid(false);
+        formatter.setCommitsOnValidEdit(true);
+        global_character_limit_textfield = new JFormattedTextField(formatter);
+        global_character_limit_textfield.setValue(1);
+
+
+
+//        options_panel.setBackground(Color.BLUE);  // DEBUG
+//        down_button_panel.setBackground(Color.RED);
+//        jPanel1.setBackground(Color.ORANGE);
 
 
         setTitle(CharacterLimiterPlugin.getLocalizedString("CONFIG_DIALOG_TITLE"));
@@ -48,7 +67,7 @@ public class PluginConfigDialog extends JDialog {
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
         options_panel.add(allow_longer_strings_checkbox);
         options_panel.add(enable_sound_checkbox);
-        options_panel.add(enable_global_character_limit);
+        options_panel.add(enable_global_character_limit_checkbox);
         options_panel.add(global_character_limit_label, BorderLayout.WEST);
         options_panel.add(global_character_limit_textfield, BorderLayout.CENTER);
 
@@ -77,22 +96,38 @@ public class PluginConfigDialog extends JDialog {
                 saveButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(cancel_button);
         jPanel1.add(save_button);
+        jPanel1.add(cancel_button);
 
         down_button_panel.add(jPanel1, BorderLayout.EAST);
 
         options_panel.add(down_button_panel);
 
         getContentPane().add(options_panel, java.awt.BorderLayout.NORTH);
+
+        load_from_config_file();
     }
-	
+
+
+    private void load_from_config_file()
+    {
+        allow_longer_strings_checkbox.setSelected(plugin_config.allow_longer_strings);
+        enable_sound_checkbox.setSelected(plugin_config.enable_sound);
+        enable_sound_checkbox.setSelected(plugin_config.enable_sound);
+        enable_global_character_limit_checkbox.setSelected(plugin_config.enable_global_character_limit);
+        global_character_limit_textfield.setValue(plugin_config.global_character_limit);
+    }
 
 	
 	private void saveButtonActionPerformed(AWTEvent evt) {
 		setVisible(false);
         dispose();
-        plugin_config.save_config();
+        plugin_config.overwrite_config(allow_longer_strings_checkbox.isSelected(),
+                                       enable_sound_checkbox.isSelected(),
+                                       "beep.wav", // TODO
+                                       enable_global_character_limit_checkbox.isSelected(),
+                                       (Integer)global_character_limit_textfield.getValue()
+                );
     }
 
     private void cancelButtonActionPerformed(AWTEvent evt) {
