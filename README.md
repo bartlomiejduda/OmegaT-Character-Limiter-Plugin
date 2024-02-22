@@ -65,7 +65,10 @@ Here are some extra features that can be configured using config menu:
 
 ## Plugin Compatibility
 
-Version 1.0 of this plugin was tested with OmegaT 6.0.0
+| Plugin Version | OmegaT Version | Is compatible? |
+|----------------|----------------|----------------|
+| v1.0           | v5.7.1         | No             |
+| v1.0           | v6.0.0         | Yes            |
 
 ## Building JAR
 
