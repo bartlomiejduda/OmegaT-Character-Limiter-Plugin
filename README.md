@@ -69,6 +69,7 @@ Here are some extra features that can be configured using config menu:
 |----------------|----------------|----------------|
 | v1.0           | v5.7.1         | No             |
 | v1.0           | v6.0.0         | Yes            |
+| v1.0           | v6.0.1         | Yes            |
 
 ## Building JAR
 
